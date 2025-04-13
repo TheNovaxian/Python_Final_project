@@ -8,7 +8,7 @@ public class Product {
     private int id;
     private String name;
     private double price;
-    int quantity;
+    public int quantity;
 
 
 
@@ -40,6 +40,13 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     @Override

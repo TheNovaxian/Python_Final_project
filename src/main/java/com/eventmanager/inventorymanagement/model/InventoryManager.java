@@ -38,4 +38,7 @@ public class InventoryManager {
     }
 
 
+    public List<Product> getProducts() {
+        return products;
+    }
 }
