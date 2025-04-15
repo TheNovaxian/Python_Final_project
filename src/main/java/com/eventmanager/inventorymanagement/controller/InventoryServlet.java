@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+
+
 @WebServlet("/inventory")
 public class InventoryServlet extends HttpServlet {
 
@@ -61,6 +63,10 @@ public class InventoryServlet extends HttpServlet {
 
             case "addProductForm":
                 displayAddProductForm(out); // Display form to add new product
+                break;
+
+            case "deleteProduct":
+                deleteProduct(req, out); // Handle product deletion
                 break;
 
             case "placeOrder":
@@ -140,6 +146,22 @@ public class InventoryServlet extends HttpServlet {
         }
     }
 
+    private void deleteProduct(HttpServletRequest req, PrintWriter out) {
+        try {
+            // Get the product ID from the request
+            int productId = Integer.parseInt(req.getParameter("id"));
+
+            // Call the Database method to delete the product
+            Database.deleteProduct(productId);
+
+            // Show success message and link back to the product list
+            out.println("<h3>Product Deleted Successfully!</h3>");
+            out.println("<a href='?action=viewProducts'>Back to Product List</a>");
+        } catch (NumberFormatException e) {
+            out.println("<p>Error: Invalid product ID.</p>");
+        }
+    }
+
 
     private void displayProducts(PrintWriter out) {
         List<Product> products = Database.getProducts();
@@ -150,6 +172,7 @@ public class InventoryServlet extends HttpServlet {
             out.println("<ul>");
             for (Product p : products) {
                 out.printf("<li>%s - $%.2f - Qty: %d</li>", p.getName(), p.getPrice(), p.getQuantity());
+                out.printf(" <a href='?action=deleteProduct&id=%d'>Delete</a></li>", p.getId());
             }
             out.println("</ul>");
         }
@@ -164,6 +187,8 @@ public class InventoryServlet extends HttpServlet {
             out.println("<ul>");
             for (Stock s : stocks) {
                 out.printf("<li>%s: %d units available</li>", s.getStockName(), s.getStockLevel());
+                out.printf("product id:" + s.getProduct().getId() + "stock id:" + s.getStockID()) ;
+
             }
             out.println("</ul>");
         }

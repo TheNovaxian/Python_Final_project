@@ -21,7 +21,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.1.214</version> <!-- Make sure to use the latest version -->
+            <version>2.3.232</version> <!-- Make sure to use the latest version -->
         </dependency>
 
         <dependency>

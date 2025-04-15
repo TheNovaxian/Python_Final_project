@@ -9,7 +9,7 @@ import com.eventmanager.inventorymanagement.model.Stock;
 
 public class Database {
 
-    private static final String URL = "jdbc:h2:~/test;DB_CLOSE_DELAY=-1"; // In-memory database for testing
+    private static final String URL = "jdbc:h2:~/test2;DB_CLOSE_DELAY=-1"; // In-memory database for testing
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
@@ -32,7 +32,7 @@ public class Database {
     }
 
     // Create tables
-    private static void createTables() throws SQLException {
+    public static void createTables() throws SQLException {
         Statement stmt = connection.createStatement();
 
         // Create products table
@@ -72,15 +72,26 @@ public class Database {
     // Insert a product into the products table
     public static void insertProduct(Product product) {
         String sql = "INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement pstmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, product.getName());
             pstmt.setDouble(2, product.getPrice());
             pstmt.setInt(3, product.getQuantity());
+
+            // Execute the insert statement
             pstmt.executeUpdate();
+
+            // Retrieve the generated keys (auto-generated ID)
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    // Set the generated ID into the product object
+                    product.setId(generatedKeys.getInt(1));
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
 
 
@@ -128,6 +139,27 @@ public class Database {
         }
     }
 
+    public static Product getProductById(int id) {
+        String sql = "SELECT * FROM products WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Product(
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getDouble("price"),
+                            rs.getInt("quantity")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     // Get all orders from the database
     public static List<Order> getOrders() {
         List<Order> orders = new ArrayList<>();
@@ -136,12 +168,7 @@ public class Database {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Product product = new Product(
-                        rs.getInt("product_id"), // Assuming product ID is stored
-                        "Placeholder", // You can load product info separately if needed
-                        0.0, // Placeholder, ideally you'd query the product by its ID
-                        0
-                );
+                Product product = getProductById(rs.getInt("product_id"));
                 Order order = new Order(
                         rs.getInt("order_id"),
                         rs.getInt("customer_id"),
@@ -214,6 +241,35 @@ public class Database {
                 System.out.println("No stock record found for product ID " + stock.getProduct().getId());
             }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteProduct(int productId) {
+        String sql = "DELETE FROM products WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            // Delete stock associated with the product
+            String deleteStockSql = "DELETE FROM stocks WHERE product_id = ?";
+            try (PreparedStatement deleteStockPstmt = connection.prepareStatement(deleteStockSql)) {
+                deleteStockPstmt.setInt(1, productId);
+                deleteStockPstmt.executeUpdate();
+            }
+
+            // Now delete the product itself
+            pstmt.setInt(1, productId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void clearStocksTable() {
+        String sql = "DELETE FROM stocks";
+        try (Statement stmt = connection.createStatement()) {
+            stmt.executeUpdate(sql); // Clear the stocks table
+            System.out.println("Stocks table cleared successfully.");
         } catch (SQLException e) {
             e.printStackTrace();
         }
