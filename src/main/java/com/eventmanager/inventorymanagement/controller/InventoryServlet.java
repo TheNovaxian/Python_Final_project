@@ -1,7 +1,11 @@
 package com.eventmanager.inventorymanagement.controller;
 
-import com.eventmanager.inventorymanagement.database.Database;
+import com.eventmanager.inventorymanagement.DAO.Database;
 import com.eventmanager.inventorymanagement.model.*;
+import com.eventmanager.inventorymanagement.DAO.ProductDAO;
+import com.eventmanager.inventorymanagement.DAO.StockDAO;
+import com.eventmanager.inventorymanagement.DAO.OrderDAO;
+
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -34,11 +38,12 @@ public class InventoryServlet extends HttpServlet {
         if (action == null) action = "home";
 
         out.println("<html><head><title>Inventory Manager</title>");
+        out.println("<link href='./css/styles.css' rel='stylesheet'>");
         out.println("<link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' rel='stylesheet'></head>");
         out.println("<body class='container'>");
         out.println("<h1 class='my-4'>Inventory Management</h1>");
         out.println("<nav class='navbar navbar-expand-lg navbar-light bg-light'>");
-        out.println("<a class='navbar-brand' href='/inventory'>Home</a>");
+        out.println("<a class='navbar-brand' href='inventory'>Home</a>");
         out.println("<div class='collapse navbar-collapse'>");
         out.println("<ul class='navbar-nav mr-auto'>");
         out.println("<li class='nav-item'><a class='nav-link' href='?action=viewProducts'>View Products</a></li>");
@@ -127,7 +132,7 @@ public class InventoryServlet extends HttpServlet {
     }
 
     private void displayOrders(PrintWriter out) {
-        List<Order> orders = Database.getOrders(); // make sure this method exists in your Database class
+        List<Order> orders = OrderDAO.getOrders(); // make sure this method exists in your Database class
 
         out.println("<h2>Order List</h2>");
         if (orders.isEmpty()) {
@@ -152,7 +157,7 @@ public class InventoryServlet extends HttpServlet {
             int productId = Integer.parseInt(req.getParameter("id"));
 
             // Call the Database method to delete the product
-            Database.deleteProduct(productId);
+            ProductDAO.deleteProduct(productId);
 
             // Show success message and link back to the product list
             out.println("<h3>Product Deleted Successfully!</h3>");
@@ -164,7 +169,7 @@ public class InventoryServlet extends HttpServlet {
 
 
     private void displayProducts(PrintWriter out) {
-        List<Product> products = Database.getProducts();
+        List<Product> products = ProductDAO.getProducts();
         out.println("<h2>Product List</h2>");
         if (products.isEmpty()) {
             out.println("<p>No products available.</p>");
@@ -179,7 +184,7 @@ public class InventoryServlet extends HttpServlet {
     }
 
     private void displayStock(PrintWriter out) {
-        List<Stock> stocks = Database.getStocks();
+        List<Stock> stocks = StockDAO.getStocks();
         out.println("<h2>Stock Levels</h2>");
         if (stocks.isEmpty()) {
             out.println("<p>No stock records found.</p>");
@@ -221,11 +226,11 @@ public class InventoryServlet extends HttpServlet {
 
         // Create the Product object first
         Product product = new Product(0, productName, productPrice, productQuantity); // ID will be auto-generated
-        Database.insertProduct(product);
+        ProductDAO.insertProduct(product);
 
         // Create the Stock object now, linked with the newly created Product
         Stock stock = new Stock(0, productQuantity, productName, product); // Passing the product to the stock
-        Database.insertStock(stock);  // Insert stock record into the database
+        StockDAO.insertStock(stock);  // Insert stock record into the database
 
         // Display success message
         out.println("<h3>Product and Stock added successfully!</h3>");
@@ -236,7 +241,7 @@ public class InventoryServlet extends HttpServlet {
 
 
     private void displayPlaceOrderForm(PrintWriter out) {
-        List<Product> products = Database.getProducts();
+        List<Product> products = ProductDAO.getProducts();
 
         out.println("<h2>Place Order</h2>");
         out.println("<form action='?action=placeOrder' method='POST'>");
@@ -300,7 +305,7 @@ public class InventoryServlet extends HttpServlet {
         String paymentMethod = req.getParameter("paymentMethod");
 
         Product product = null;
-        for (Product p : Database.getProducts()) {
+        for (Product p : ProductDAO.getProducts()) {
             if (p.getId() == productId) {
                 product = p;
                 break;
@@ -313,7 +318,7 @@ public class InventoryServlet extends HttpServlet {
         }
 
         Stock stock = null;
-        for (Stock s : Database.getStocks()) {
+        for (Stock s : StockDAO.getStocks()) {
             if (s.getProduct().getId() == productId) {
                 stock = s;
                 break;
@@ -322,11 +327,11 @@ public class InventoryServlet extends HttpServlet {
 
         if (stock != null && stock.getStockLevel() >= quantity) {
             stock.reduceStock(quantity); // reduce stock
-            Database.updateStock(stock); // 🔁 persist change in database if needed
+            StockDAO.updateStock(stock); // 🔁 persist change in database if needed
 
             Order order = new Order(1, 123, product.getId(), quantity, new java.util.Date(),
                     "Processing", shippingAddress, shippingMethod, paymentMethod, product.getPrice() * quantity, product);
-            Database.insertOrder(order);
+            OrderDAO.insertOrder(order);
 
             out.println("<h3>Order Placed Successfully!</h3>");
             out.printf("<p>Order Details:</p>");

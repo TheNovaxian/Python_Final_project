@@ -1,0 +1,150 @@
+/* General body styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fc;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header and Navbar Styles */
+h1 {
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+nav {
+    background-color: #007bff;
+}
+
+.navbar {
+    padding: 15px;
+}
+
+.navbar-brand {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    background-color: #0056b3;
+}
+
+/* Table and List Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Form Styles */
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="number"], select, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button Styles */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Success and Error Messages */
+.success-message {
+    background-color: #28a745;
+    color: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.error-message {
+    background-color: #dc3545;
+    color: white;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+footer p {
+    margin: 0;
+}
