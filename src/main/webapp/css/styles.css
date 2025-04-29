@@ -148,3 +148,50 @@ footer {
 footer p {
     margin: 0;
 }
+
+/* Container styling for stock list */
+.stock-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+/* Individual stock item style */
+.stock-item {
+    padding: 12px 20px;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-left: 5px solid #17a2b8; /* Bootstrap info color */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border-radius: 4px;
+}
+
+/* Product list section */
+ul {
+    list-style-type: none;  /* Remove bullet points */
+    padding: 0;
+}
+
+/* Individual product entry */
+ul li {
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-left: 5px solid #28a745; /* Bootstrap success color */
+    box-shadow: 0 2px 3px rgba(0,0,0,0.05);
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Links inside list items */
+ul li a {
+    margin-left: 15px;
+    color: #dc3545;
+    text-decoration: none;
+}
+
+ul li a:hover {
+    text-decoration: underline;
+}

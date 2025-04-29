@@ -65,4 +65,33 @@ public class OrderDAO {
         }
         return orders;
     }
+
+    public static Order getOrderById(int orderId) {
+        String sql = "SELECT * FROM orders WHERE order_id = ?";
+        try (PreparedStatement pstmt = Database.getConnection().prepareStatement(sql)) {
+            pstmt.setInt(1, orderId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    Product product = ProductDAO.getProductById(rs.getInt("product_id"));
+                    return new Order(
+                            rs.getInt("order_id"),
+                            rs.getInt("customer_id"),
+                            rs.getInt("product_id"),
+                            rs.getInt("quantity"),
+                            rs.getTimestamp("order_date"),
+                            rs.getString("order_status"),
+                            rs.getString("shipping_address"),
+                            rs.getString("shipping_method"),
+                            rs.getString("payment_method"),
+                            rs.getDouble("total_price"),
+                            product
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // Return null if order not found or an error occurred
+    }
+
 }

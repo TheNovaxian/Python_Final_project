@@ -51,6 +51,10 @@ public class InventoryServlet extends HttpServlet {
         out.println("<li class='nav-item'><a class='nav-link' href='?action=placeOrderForm'>Place Order</a></li>");
         out.println("<li class='nav-item'><a class='nav-link' href='?action=viewOrders'>View Orders</a></li>");
         out.println("<li class='nav-item'><a class='nav-link' href='?action=addProductForm'>Add Product</a></li>"); // Link to add product form
+        out.println("<li class='nav-item'><a class='nav-link' href='?action=viewReport'>Generate Report</a></li>");
+
+
+
         out.println("</ul></div></nav><hr>");
 
         switch (action) {
@@ -82,6 +86,9 @@ public class InventoryServlet extends HttpServlet {
                 displayOrders(out);
                 break;
 
+            case "viewReport":
+                displayReportLink(out);
+                break;
 
             default:
                 out.println("<p>Welcome to the inventory system! Choose an action above.</p>");
@@ -112,6 +119,8 @@ public class InventoryServlet extends HttpServlet {
         out.println("<li class='nav-item'><a class='nav-link' href='?action=viewProducts'>View Products</a></li>");
         out.println("<li class='nav-item'><a class='nav-link' href='?action=viewStock'>View Stock</a></li>");
         out.println("<li class='nav-item'><a class='nav-link' href='?action=placeOrderForm'>Place Order</a></li>");
+        out.println("<li class='nav-item'><a class='nav-link' href='?action=viewReport'>Generate Report</a></li>");
+
         out.println("</ul></div></nav><hr>");
 
         switch (action) {
@@ -132,24 +141,25 @@ public class InventoryServlet extends HttpServlet {
     }
 
     private void displayOrders(PrintWriter out) {
-        List<Order> orders = OrderDAO.getOrders(); // make sure this method exists in your Database class
+        List<Order> orders = OrderDAO.getOrders();
 
         out.println("<h2>Order List</h2>");
         if (orders.isEmpty()) {
             out.println("<p>No orders found.</p>");
         } else {
             out.println("<table class='table table-striped'>");
-            out.println("<thead><tr><th>ID</th><th>Product</th><th>Quantity</th><th>Total</th><th>Status</th><th>Shipping</th><th>Payment</th></tr></thead>");
+            out.println("<thead><tr><th>ID</th><th>Product</th><th>Quantity</th><th>Total</th><th>Status</th><th>Shipping</th><th>Payment</th><th>Details</th></tr></thead>");
             out.println("<tbody>");
             for (Order o : orders) {
-                out.printf("<tr><td>%d</td><td>%s</td><td>%d</td><td>$%.2f</td><td>%s</td><td>%s</td><td>%s</td></tr>",
+                out.printf("<tr><td>%d</td><td>%s</td><td>%d</td><td>$%.2f</td><td>%s</td><td>%s</td><td>%s</td><td><a href='order-details?id=%d'>View</a></td></tr>",
                         o.getOrderId(), o.getProduct().getName(), o.getQuantity(),
                         o.getTotalPrice(), o.getOrderStatus(),
-                        o.getShippingMethod(), o.getPaymentMethod());
+                        o.getShippingMethod(), o.getPaymentMethod(), o.getOrderId());
             }
             out.println("</tbody></table>");
         }
     }
+
 
     private void deleteProduct(HttpServletRequest req, PrintWriter out) {
         try {
@@ -347,5 +357,12 @@ public class InventoryServlet extends HttpServlet {
             out.println("<p>Not enough stock to fulfill order.</p>");
         }
     }
+
+    private void displayReportLink(PrintWriter out) {
+        // Here, you can either generate a static report or display a link for downloading the report.
+        out.println("<h2>Generate Product Report</h2>");
+        out.println("<p><a href='generateReport'>Click here to generate the product report.</a></p>");
+    }
+
 
 }
