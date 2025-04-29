@@ -41,21 +41,27 @@ public class InventoryServlet extends HttpServlet {
         out.println("<link href='./css/styles.css' rel='stylesheet'>");
         out.println("<link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' rel='stylesheet'></head>");
         out.println("<body class='container'>");
+
         out.println("<h1 class='my-4'>Inventory Management</h1>");
-        out.println("<nav class='navbar navbar-expand-lg navbar-light bg-light'>");
-        out.println("<a class='navbar-brand' href='inventory'>Home</a>");
-        out.println("<div class='collapse navbar-collapse'>");
-        out.println("<ul class='navbar-nav mr-auto'>");
+        out.println("<nav class='navbar navbar-expand-lg navbar-dark bg-primary custom-navbar'>");  // Updated classes
+        out.println("<a class='navbar-brand' href='inventory'>Inventory Manager</a>");  // Updated text here
+        out.println("<button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>");
+        out.println("<span class='navbar-toggler-icon'></span>");
+        out.println("</button>");
+
+        out.println("<div class='collapse navbar-collapse' id='navbarNav'>");
+        out.println("<ul class='navbar-nav ml-auto'>");  // ml-auto for right-aligning the navbar items
         out.println("<li class='nav-item'><a class='nav-link' href='?action=viewProducts'>View Products</a></li>");
         out.println("<li class='nav-item'><a class='nav-link' href='?action=viewStock'>View Stock</a></li>");
         out.println("<li class='nav-item'><a class='nav-link' href='?action=placeOrderForm'>Place Order</a></li>");
         out.println("<li class='nav-item'><a class='nav-link' href='?action=viewOrders'>View Orders</a></li>");
-        out.println("<li class='nav-item'><a class='nav-link' href='?action=addProductForm'>Add Product</a></li>"); // Link to add product form
+        out.println("<li class='nav-item'><a class='nav-link' href='?action=addProductForm'>Add Product</a></li>");
         out.println("<li class='nav-item'><a class='nav-link' href='?action=viewReport'>Generate Report</a></li>");
+        out.println("</ul>");
+        out.println("</div>");
+        out.println("</nav>");
+        out.println("<hr>");
 
-
-
-        out.println("</ul></div></nav><hr>");
 
         switch (action) {
             case "viewProducts":
@@ -110,6 +116,7 @@ public class InventoryServlet extends HttpServlet {
 
         out.println("<html><head><title>Inventory Manager</title>");
         out.println("<link href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' rel='stylesheet'></head>");
+        out.println("<link href='css/styles.css' rel='stylesheet'>");
         out.println("<body class='container'>");
         out.println("<h1 class='my-4'>Inventory Management</h1>");
         out.println("<nav class='navbar navbar-expand-lg navbar-light bg-light'>");
@@ -184,14 +191,19 @@ public class InventoryServlet extends HttpServlet {
         if (products.isEmpty()) {
             out.println("<p>No products available.</p>");
         } else {
-            out.println("<ul>");
+            out.println("<table class='table table-bordered table-hover'>");
+            out.println("<thead class='thead-dark'><tr><th>ID</th><th>Name</th><th>Price</th></tr></thead>");
+            out.println("<tbody>");
             for (Product p : products) {
-                out.printf("<li>%s - $%.2f - Qty: %d</li>", p.getName(), p.getPrice(), p.getQuantity());
-                out.printf(" <a href='?action=deleteProduct&id=%d'>Delete</a></li>", p.getId());
+                out.printf(
+                        "<tr><td>%d</td><td>%s</td><td>$%.2f</td><td><a class='btn btn-block btn-danger' href='?action=deleteProduct&id=%d'>Delete</a></td></tr>",
+                        p.getId(), p.getName(), p.getPrice(), p.getQuantity(), p.getId()
+                );
             }
-            out.println("</ul>");
+            out.println("</tbody></table>");
         }
     }
+
 
     private void displayStock(PrintWriter out) {
         List<Stock> stocks = StockDAO.getStocks();
@@ -199,15 +211,20 @@ public class InventoryServlet extends HttpServlet {
         if (stocks.isEmpty()) {
             out.println("<p>No stock records found.</p>");
         } else {
-            out.println("<ul>");
+            out.println("<table class='table table-bordered table-striped'>");
+            out.println("<thead class='thead-dark'><tr><th>Stock ID</th><th>Product ID</th><th>Product Name</th><th>Available Units</th></tr></thead>");
+            out.println("<tbody>");
             for (Stock s : stocks) {
-                out.printf("<li>%s: %d units available</li>", s.getStockName(), s.getStockLevel());
-                out.printf("product id:" + s.getProduct().getId() + "stock id:" + s.getStockID()) ;
-
+                out.printf(
+                        "<tr><td>%d</td><td>%d</td><td>%s</td><td>%d</td></tr>",
+                        s.getStockID(), s.getProduct().getId(), s.getStockName(), s.getStockLevel()
+                );
             }
-            out.println("</ul>");
+            out.println("</tbody></table>");
         }
     }
+
+
 
     private void displayAddProductForm(PrintWriter out) {
         out.println("<h2>Add Product</h2>");

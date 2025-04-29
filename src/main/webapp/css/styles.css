@@ -1,197 +1,157 @@
-/* General body styles */
 body {
-    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: #f4f7fc;
+    padding: 0 15px;
+}
+
+h1, h2, h3 {
     color: #333;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* Header and Navbar Styles */
-h1 {
-    text-align: center;
-    color: #343a40;
-    margin-bottom: 20px;
-}
-
-nav {
-    background-color: #007bff;
+    margin-top: 20px;
 }
 
 .navbar {
-    padding: 15px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-brand {
-    color: #fff;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-transform: uppercase;
+.navbar-nav .nav-link {
+    font-weight: 500;
+    color: #007bff !important;
+    margin-right: 10px;
+    transition: color 0.3s;
 }
 
-.navbar-nav .nav-item .nav-link {
-    color: #fff;
-    font-size: 1.1rem;
+.navbar-nav .nav-link:hover {
+    color: #0056b3 !important;
+    text-decoration: underline;
 }
 
-.navbar-nav .nav-item .nav-link:hover {
-    background-color: #0056b3;
+.table {
+    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
-/* Table and List Styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table th, table td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-
-table th {
+.table th {
     background-color: #007bff;
     color: #fff;
+    text-align: center;
 }
 
-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+.table td {
+    text-align: center;
+    vertical-align: middle;
 }
 
-table tr:hover {
-    background-color: #f1f1f1;
+ul {
+    list-style-type: none;
+    padding-left: 0;
 }
 
-/* Form Styles */
-form {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
+ul li {
+    padding: 10px;
+    background: #ffffff;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+ul li a {
+    color: #dc3545;
+    margin-left: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+ul li a:hover {
+    text-decoration: underline;
 }
 
 .form-group {
     margin-bottom: 15px;
 }
 
-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
-
-input[type="text"], input[type="number"], select, textarea {
-    width: 100%;
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
     padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+    width: 100%;
 }
 
-input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-/* Button Styles */
-button {
+.btn-primary {
     background-color: #007bff;
-    color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
+    padding: 10px 16px;
+    font-weight: bold;
 }
 
-button:hover {
+.btn-primary:hover {
     background-color: #0056b3;
 }
 
-/* Success and Error Messages */
-.success-message {
-    background-color: #28a745;
-    color: white;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 4px;
-    text-align: center;
-}
-
-.error-message {
-    background-color: #dc3545;
-    color: white;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 4px;
-    text-align: center;
-}
-
-/* Footer Styles */
-footer {
-    background-color: #007bff;
-    color: white;
-    text-align: center;
-    padding: 15px;
-    margin-top: 20px;
-}
-
-footer p {
-    margin: 0;
-}
-
-/* Container styling for stock list */
-.stock-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+hr {
     margin: 20px 0;
+    border: 0;
+    border-top: 1px solid #ccc;
 }
 
-/* Individual stock item style */
-.stock-item {
-    padding: 12px 20px;
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-left: 5px solid #17a2b8; /* Bootstrap info color */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    border-radius: 4px;
+p {
+    font-size: 1rem;
+    color: #444;
 }
 
-/* Product list section */
-ul {
-    list-style-type: none;  /* Remove bullet points */
-    padding: 0;
+/* Custom Navbar Style */
+.custom-navbar {
+    border-bottom: 2px solid #fff;  /* Adds a white border at the bottom */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Slight shadow for depth */
 }
 
-/* Individual product entry */
-ul li {
-    padding: 10px 15px;
-    margin-bottom: 8px;
-    background-color: #ffffff;
-    border: 1px solid #ced4da;
-    border-left: 5px solid #28a745; /* Bootstrap success color */
-    box-shadow: 0 2px 3px rgba(0,0,0,0.05);
-    border-radius: 4px;
-    font-size: 16px;
+.custom-navbar .navbar-brand {
+    font-size: 1.75rem;  /* Larger text size for the brand */
+    font-weight: bold;  /* Make the brand bold */
+    color: #fff !important;  /* Ensure brand text is white */
 }
 
-/* Links inside list items */
-ul li a {
-    margin-left: 15px;
-    color: #dc3545;
-    text-decoration: none;
+.custom-navbar .navbar-nav .nav-link {
+    font-size: 1.1rem;  /* Slightly larger font for navigation links */
+    font-weight: 500;  /* Medium weight for links */
+    padding: 10px 15px;  /* Adds space around each link */
+    color: #fff !important;  /* White text color for links */
+    transition: color 0.3s ease;  /* Smooth transition on hover */
 }
 
-ul li a:hover {
-    text-decoration: underline;
+.custom-navbar .navbar-nav .nav-link:hover {
+    color: #ffd700 !important;  /* Change color on hover to gold */
+}
+
+.custom-navbar .navbar-nav .nav-item {
+    margin-left: 20px;  /* Adds space between the nav items */
+}
+
+.custom-navbar .navbar-toggler-icon {
+    background-color: #fff;  /* Makes the toggle icon white */
+}
+
+/* Active Link */
+.custom-navbar .navbar-nav .nav-item.active .nav-link {
+    color: #ffd700 !important;  /* Gold color for the active link */
+}
+
+/* Mobile View */
+@media (max-width: 767px) {
+    .custom-navbar .navbar-nav {
+        text-align: center;  /* Center align the links on mobile */
+    }
+
+    .custom-navbar .navbar-nav .nav-item {
+        margin: 10px 0;  /* Adds space between items on mobile */
+    }
 }
