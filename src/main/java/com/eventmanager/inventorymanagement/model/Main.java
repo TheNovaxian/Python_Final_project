@@ -34,6 +34,9 @@ public class Main {
         // Optionally, you can print a message to indicate that the operation was successful
         System.out.println("Stocks table has been cleared.");
 
+        //generate reports
+        inventoryManager.generateReports();
+
 
     }
 

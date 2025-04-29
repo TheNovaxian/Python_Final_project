@@ -41,4 +41,11 @@ public class InventoryManager {
     public List<Product> getProducts() {
         return products;
     }
+
+    public void generateReports() {
+        ReportsGenerator.generateProductReport(products);
+        ReportsGenerator.generateStockReport(stocks);
+        ReportsGenerator.generateSupplierReport(suppliers);
+        ReportsGenerator.generateOrderReport(orders);
+    }
 }
