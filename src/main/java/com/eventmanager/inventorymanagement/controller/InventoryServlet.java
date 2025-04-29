@@ -378,7 +378,7 @@ public class InventoryServlet extends HttpServlet {
     private void displayReportLink(PrintWriter out) {
         // Here, you can either generate a static report or display a link for downloading the report.
         out.println("<h2>Generate Product Report</h2>");
-        out.println("<p><a href='generateReport'>Click here to generate the product report.</a></p>");
+        out.println("<p><a href='generateReport'>Click here for reports.</a></p>");
     }
 
 
